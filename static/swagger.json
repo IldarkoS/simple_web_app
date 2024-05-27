@@ -1,0 +1,233 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "TODO app"
+  },
+  "tags": [
+    {
+      "name": "Task Request",
+      "description": "Example API for requesting and return task requests"
+    }
+  ],
+  "paths": {
+    "/tasks": {
+      "get": {
+        "tags": [
+          "Task Request"
+        ],
+        "summary": "Returns tasks",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/taskRequests"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Task Request"
+        ],
+        "summary": "Create a new task request",
+        "requestBody": {
+          "description": "Task Request Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/taskRequestPostBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    },
+    "/tasks/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the cat that we want to match",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Task Request"
+        ],
+        "summary": "Get task request with given ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Task Request id",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/taskRequest"
+            }
+          },
+          "400": {
+            "description": "Failed. Misunderstood Request."
+          },
+          "404": {
+            "description": "Failed. Task request not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "edit a task request by ID",
+        "tags": [
+          "Task Request"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Task Request id",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Task Request Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/taskRequestPostBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/taskRequest"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Task Request by ID",
+        "tags": [
+          "Task Request"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Task Request Id",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          },
+          "400": {
+            "description": "Failed. Misunderstood Request."
+          },
+          "404": {
+            "description": "Failed. Task Request not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "id": {
+        "properties": {
+          "uuid": {
+            "type": "string"
+          }
+        }
+      },
+      "taskRequestPostBody": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "format": "string"
+          },
+          "description": {
+            "type": "string",
+            "format": "text"
+          }
+        }
+      },
+      "taskRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "format": "string"
+          },
+          "description": {
+            "type": "string",
+            "format": "text"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "taskRequests": {
+        "type": "object",
+        "properties": {
+          "taskRequest": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/taskRequest"
+            }
+          }
+        }
+      }
+    }
+  }
+}
